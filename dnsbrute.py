@@ -3,11 +3,9 @@ from dns.resolver import NXDOMAIN, NoAnswer, Timeout
 from datetime import datetime
 import concurrent.futures
 
-# Get user input for wordlist and target
 wordlist_path = input("Enter the path to the wordlist file: ")
 target = input("Enter the target domain: ")
 
-# Resolver configuration
 res = dns.resolver.Resolver()
 res.timeout = 5
 res.lifetime = 10
@@ -25,7 +23,6 @@ found_subdomains = []
 
 print(f"[*] Starting to check {total_subdomains} subdomains for target {target}")
 
-# Function to resolve subdomains
 def resolve_subdomain(subdomain):
     sub_target = f"{subdomain}.{target}"
     try:
@@ -50,7 +47,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             found_subdomains.append(result)
         print(f"[{i}/{total_subdomains}] {result}")
 
-# Summary of results
 print("\n[*] Scan completed.")
 print(f"[*] Found {len(found_subdomains)} subdomains with valid A records:")
 for found in found_subdomains:
